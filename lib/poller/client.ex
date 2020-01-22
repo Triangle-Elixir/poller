@@ -38,14 +38,10 @@ defmodule Poller.Client do
   end
 
   defp valid_process?(process, registry_key) do
-    alive = Process.alive?(process)
-
-    registered =
-      registry_key
-      |> get_processes()
-      |> Enum.any?(&(&1 == process))
-
-    alive && registered
+    with true <- Process.alive?(process),
+         processes <- get_processes(registry_key) do
+      Enum.any?(processes, &(&1 == process))
+    end
   end
 
   defp notify(true, pid) when is_pid(pid) do
