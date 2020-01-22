@@ -33,7 +33,7 @@ defmodule Poller.Client do
 
   defp get_processes(registry_key) do
     ProcessRegistry
-    |>Registry.lookup(registry_key)
+    |> Registry.lookup(registry_key)
     |> Enum.map(fn {pid, _} -> pid end)
   end
 
@@ -43,7 +43,7 @@ defmodule Poller.Client do
     registered =
       registry_key
       |> get_processes()
-      |> Enum.any?(& (&1 == process))
+      |> Enum.any?(&(&1 == process))
 
     alive && registered
   end
