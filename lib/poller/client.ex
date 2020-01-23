@@ -15,30 +15,38 @@ defmodule Poller.Client do
 
   def notify_next(%__MODULE__{current_list: []} = client) do
     processes =
-      ProcessRegistry
-      |> Registry.lookup(client.registry_key)
-      |> Enum.map(fn {pid, _} -> pid end)
+      client.registry_key
+      |> get_processes()
 
     notify_next(%__MODULE__{client | current_list: processes})
   end
 
   def notify_next(client) do
     [process | rest] = client.current_list
-    notify(process)
+
+    process
+    |> valid_process?(client.registry_key)
+    |> notify(process)
+
     %__MODULE__{client | current_list: rest}
   end
 
-  defp notify(pid) when is_pid(pid) do
-    case Process.alive?(pid) do
-      true ->
-        Process.send(pid, :call, [])
+  defp get_processes(registry_key) do
+    ProcessRegistry
+    |> Registry.lookup(registry_key)
+    |> Enum.map(fn {pid, _} -> pid end)
+  end
 
-      _ ->
-        :ok
+  defp valid_process?(process, registry_key) do
+    with true <- Process.alive?(process),
+         processes <- get_processes(registry_key) do
+      Enum.any?(processes, &(&1 == process))
     end
   end
 
-  defp notify(_pid) do
-    :ok
+  defp notify(true, pid) when is_pid(pid) do
+    Process.send(pid, :call, [])
   end
+
+  defp notify(_boolean, _pid), do: :ok
 end
