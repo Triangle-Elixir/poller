@@ -6,6 +6,7 @@ defmodule Poller do
   """
 
   alias Poller.Server
+  alias Poller.ProcessRegistry
 
   @doc """
     Create new poller server instance with given `label` as name.  The Poller
@@ -16,5 +17,12 @@ defmodule Poller do
   def create_poller(label, registry_key, interval) do
     args = [label: label, registry_key: registry_key, interval: interval]
     DynamicSupervisor.start_child(Poller.ServerSupervisor, {Server, args})
+  end
+
+  @doc """
+    Registers a process for future `:call` callbacks
+  """
+  def register(registry_key) do
+    Registry.register(ProcessRegistry, registry_key, self())
   end
 end
