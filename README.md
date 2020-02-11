@@ -22,9 +22,8 @@ def deps do
 end
 ```
 
-
 ## Copyright and License
 
-Copyright (c) 2019, Jeffrey Gillis
+Copyright (c) 2020, Jeffrey Gillis
 
 Poller source code is licensed under the [MIT License](LICENSE.md)
