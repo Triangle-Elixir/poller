@@ -1,4 +1,5 @@
 defmodule Poller.Server do
+  @moduledoc false
   use GenServer
 
   alias Poller.Client

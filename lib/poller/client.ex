@@ -1,4 +1,5 @@
 defmodule Poller.Client do
+  @moduledoc false
   defstruct label: "",
             registry_key: "",
             interval: :timer.seconds(1),
