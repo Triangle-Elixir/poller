@@ -5,6 +5,10 @@ A simple elixir application that calls processes at a given interval.
 This application might be useful for limiting the amount of process calls within
 a given time period.
 
+## Usage
+
+[See guide](./pages/example.md)
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -17,10 +21,6 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/poller](https://hexdocs.pm/poller).
 
 
 ## Copyright and License
